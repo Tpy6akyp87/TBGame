@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickReceiver : MonoBehaviour, IPointerMoveHandler, IPointerExitHandler
+public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
+
     public MoveShit shit;
     public Material materialSet; 
     public Material materialStart;
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        shit.targetToGo = gameObject.transform.position;
+        gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
+    }
 
     public void OnPointerExit(PointerEventData eventData)
     {
