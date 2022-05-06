@@ -15,19 +15,32 @@ public class MoveShit : MonoBehaviour
     public ClickReceiver[] tilesToGo;
     public GameObject pointToGo;
     private List<GameObject> pointS = new List<GameObject>();
+    public Animator animator;
 
     public void Start()
     {
         mainCamera = Camera.main;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
+    }
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+    public int State
+    {
+        get { return animator.GetInteger("State"); }
+        set { animator.SetInteger("State", value); }
     }
     public void Update()
     {
         if (Input.GetMouseButton(0))
         {
+            State = 1;
             DeletePoints();
             Move();
+            State = 1;
         }
         if (Input.GetMouseButton(1))
         {
@@ -38,6 +51,10 @@ public class MoveShit : MonoBehaviour
             {
                 FindPath(tilesToGo[t]);
             }
+        }
+        if ((Mathf.Abs(transform.position.x - targetToGo.x) < 0.6f && Mathf.Abs(transform.position.z - targetToGo.z) < 0.6f))
+        {
+            State = 1;
         }
     }
     public void Move()
@@ -54,6 +71,7 @@ public class MoveShit : MonoBehaviour
             if (clickDistance <= maxDistance)
             {
                 agent.SetDestination(targetToGo);
+                State = 1;
             }
         }
     }
