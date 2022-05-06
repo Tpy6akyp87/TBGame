@@ -60,9 +60,10 @@ public class MoveShit : MonoBehaviour
     public void FindPath(ClickReceiver tileToCheck) 
     {
         NavMeshPath findPath = new NavMeshPath();
-        if (NavMesh.CalculatePath(transform.position, tileToCheck.transform.position, NavMesh.AllAreas, findPath)) // не ищет путь по отрицательным координатам
+        if (NavMesh.CalculatePath(transform.position, tileToCheck.transform.position, NavMesh.AllAreas, findPath) && (Mathf.Abs(transform.position.x - tileToCheck.transform.position.x) > 0.6f || Mathf.Abs(transform.position.z - tileToCheck.transform.position.z) > 0.6f)) // не ищет путь по отрицательным координатам, спотыкается о свое текущее положение(исключить текущий тайл из обхода
         {
-            possibleDistance = (transform.position - findPath.corners[1]).magnitude; //Vector3.Distance(transform.position, findPath.corners[1]);
+            Debug.Log(tileToCheck.transform.position);
+            possibleDistance = Vector3.Distance(transform.position, findPath.corners[1]);
             for (int i = 1; i < findPath.corners.Length - 1; i++)
             {
                 possibleDistance += (findPath.corners[i] - findPath.corners[i + 1]).magnitude; //Vector3.Distance(findPath.corners[i], findPath.corners[i + 1]);
