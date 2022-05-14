@@ -6,13 +6,16 @@ using UnityEngine.EventSystems;
 public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
 
-    public MoveShit shit;
+    public MoveShit[] shit;
     public Material materialSet; 
     public Material materialStart;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        shit.targetToGo = gameObject.transform.position;
+        for (int i = 0; i < shit.Length; i++)
+        {
+            shit[i].targetToGo = gameObject.transform.position;
+        }
         gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
     }
 
@@ -23,13 +26,17 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        shit.targetToGo = gameObject.transform.position;
+        for (int i = 0; i < shit.Length; i++)
+        {
+            shit[i].targetToGo = gameObject.transform.position;
+        }
         gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
     }
 
     public void Start()
     {
-        shit = FindObjectOfType<MoveShit>();
+
+        shit = FindObjectsOfType<MoveShit>();
         materialStart = gameObject.GetComponentInChildren<MeshRenderer>().material;
     }
 }

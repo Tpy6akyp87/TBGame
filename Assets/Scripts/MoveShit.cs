@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
-public class MoveShit : MonoBehaviour
+public class MoveShit : MonoBehaviour, IPointerClickHandler
 {
     public Camera mainCamera;
     public NavMeshAgent agent;
@@ -16,12 +17,18 @@ public class MoveShit : MonoBehaviour
     public GameObject pointToGo;
     private List<GameObject> pointS = new List<GameObject>();
     public Animator animator;
+    public bool active;
+    public Outline outline;
+    public float upScale;
 
     public void Start()
     {
         mainCamera = Camera.main;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        outline = GetComponent<Outline>();
+        outline.OutlineWidth = 0;
+        active = false;
 
     }
     private void Awake()
@@ -35,14 +42,19 @@ public class MoveShit : MonoBehaviour
     }
     public void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(2))
+        {
+            active = false;
+            outline.OutlineWidth = 0;
+        }
+        if (Input.GetMouseButton(0) && active)
         {
             State = 1;
             DeletePoints();
             Move();
             State = 1;
         }
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && active)
         {
             DeletePoints();
             tilesToGo = FindObjectsOfType<ClickReceiver>();
@@ -54,8 +66,15 @@ public class MoveShit : MonoBehaviour
         }
         if ((Mathf.Abs(transform.position.x - targetToGo.x) < 0.6f && Mathf.Abs(transform.position.z - targetToGo.z) < 0.6f))
         {
-            State = 1;
+            State = 0;
         }
+        if (!active)
+        {
+            DeletePoints();
+            outline.OutlineWidth = 0;
+        }
+        else
+            outline.OutlineWidth = 2;
     }
     public void Move()
     {
@@ -88,7 +107,7 @@ public class MoveShit : MonoBehaviour
             }
             if (possibleDistance <= maxDistance)
             {
-                GameObject newPoint = Instantiate(pointToGo, tileToCheck.transform.position, tileToCheck.transform.rotation);
+                GameObject newPoint = Instantiate(pointToGo, tileToCheck.transform.position + new Vector3(0,upScale,0), tileToCheck.transform.rotation);
                 pointS.Add(newPoint);
             }
         }
@@ -100,5 +119,11 @@ public class MoveShit : MonoBehaviour
         {
             Destroy(pointS[i]);
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        active = true;
+        outline.OutlineWidth = 2;
     }
 }
