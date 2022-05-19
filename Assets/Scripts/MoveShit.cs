@@ -9,6 +9,7 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
     public Camera mainCamera;
     public NavMeshAgent agent;
     public Vector3 targetToGo;
+    public Vector3 finalPoint;
     public float clickDistance;
     public float possibleDistance;
     public float maxDistance;
@@ -20,6 +21,8 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
     public bool active;
     public Outline outline;
     public float upScale;
+    public StateIs switcher;//внешний переключатель хода 
+    public TurnBaser turnBaser;
 
     public void Start()
     {
@@ -27,6 +30,8 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         outline = GetComponent<Outline>();
+        turnBaser = GetComponent<TurnBaser>();
+        turnBaser = FindObjectOfType<TurnBaser>();
         outline.OutlineWidth = 0;
         active = false;
 
@@ -42,28 +47,71 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
     }
     public void Update()
     {
-        if (Input.GetMouseButton(2))
+        if (active)
         {
-            active = false;
-            outline.OutlineWidth = 0;
-        }
-        if (Input.GetMouseButton(0) && active)
-        {
-            State = 1;
-            DeletePoints();
-            Move();
-            State = 1;
-        }
-        if (Input.GetMouseButton(1) && active)
-        {
-            DeletePoints();
-            tilesToGo = FindObjectsOfType<ClickReceiver>();
-            Debug.Log(tilesToGo.Length);
-            for (int t = 0; t < tilesToGo.Length; t++)
+            switch (switcher)
             {
-                FindPath(tilesToGo[t]);
+                case StateIs.Start:
+                    {
+                        outline.OutlineWidth = 2;
+                        DeletePoints();
+                        tilesToGo = FindObjectsOfType<ClickReceiver>();
+                        //Debug.Log(tilesToGo.Length);
+                        for (int t = 0; t < tilesToGo.Length; t++)
+                        {
+                            FindPath(tilesToGo[t]);
+                        }
+                        switcher = StateIs.Move;
+                    }
+                    break;
+                case StateIs.Move://нужно сделать расходование очков движения
+                    {
+                        if (Input.GetMouseButton(0))
+                        {
+                            State = 1;
+                            DeletePoints();
+                            Move();
+                            State = 1;
+                        }
+                        if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f)) switcher = StateIs.Ability;
+                    }
+                    break;
+                case StateIs.Ability:
+                    {
+                        turnBaser.timeToNext = true;
+                    }
+                    break;
             }
         }
+
+
+
+
+
+
+
+        //if (Input.GetMouseButton(2))
+        //{
+        //    active = false;
+        //    outline.OutlineWidth = 0;
+        //}
+        //if (Input.GetMouseButton(0) && active)
+        //{
+        //    State = 1;
+        //    DeletePoints();
+        //    Move();
+        //    State = 1;
+        //}
+        //if (Input.GetMouseButton(1) && active)
+        //{
+        //    DeletePoints();
+        //    tilesToGo = FindObjectsOfType<ClickReceiver>();
+        //    Debug.Log(tilesToGo.Length);
+        //    for (int t = 0; t < tilesToGo.Length; t++)
+        //    {
+        //        FindPath(tilesToGo[t]);
+        //    }
+        //}
         if ((Mathf.Abs(transform.position.x - targetToGo.x) < 0.6f && Mathf.Abs(transform.position.z - targetToGo.z) < 0.6f))
         {
             State = 0;
@@ -73,11 +121,12 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
             DeletePoints();
             outline.OutlineWidth = 0;
         }
-        else
-            outline.OutlineWidth = 2;
+        //else
+        //    outline.OutlineWidth = 2;
     }
     public void Move()
     {
+        finalPoint = targetToGo;
         NavMeshPath navMeshPath = new NavMeshPath();
         if (NavMesh.CalculatePath(transform.position, targetToGo, NavMesh.AllAreas, navMeshPath))
         {
@@ -126,4 +175,12 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
         active = true;
         outline.OutlineWidth = 2;
     }
+}
+
+
+public enum  StateIs 
+{
+    Start,
+    Move,
+    Ability
 }

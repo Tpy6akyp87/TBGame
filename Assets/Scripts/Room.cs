@@ -15,8 +15,7 @@ public class Room : MonoBehaviour
     public NavMeshReBake reBake;
     void Start()
     {
-        reBake = FindObjectOfType<NavMeshReBake>();
-        reBake.Bake();
+        
         randomWalls[Random.Range(0, randomWalls.Length)].SetActive(false);
         Debug.Log("Случайная стена  " + Random.Range(0, randomWalls.Length));
         int x = Random.Range(0, randomEnvironment.Length);
@@ -30,6 +29,8 @@ public class Room : MonoBehaviour
         randomEnvironment[x].SetActive(true);
         randomEnvironment[y].SetActive(true);
         randomEnvironment[z].SetActive(true);
+        reBake = FindObjectOfType<NavMeshReBake>();
+        reBake.Bake();
 
     }
 
