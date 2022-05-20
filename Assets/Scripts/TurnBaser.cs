@@ -17,11 +17,15 @@ public class TurnBaser : MonoBehaviour
     {
         if (timeToNext && turnNumber < shits.Length)
         {
+            Debug.Log(timeToNext);
             shits[turnNumber].active = false;
             turnNumber++;
+            if (turnNumber == 3)
+                turnNumber = 0;
             NextChar(turnNumber);
             timeToNext = false;
         }
+        
     }
     public void NextChar(int i)
     {

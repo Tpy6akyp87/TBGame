@@ -56,7 +56,6 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
                         outline.OutlineWidth = 2;
                         DeletePoints();
                         tilesToGo = FindObjectsOfType<ClickReceiver>();
-                        //Debug.Log(tilesToGo.Length);
                         for (int t = 0; t < tilesToGo.Length; t++)
                         {
                             FindPath(tilesToGo[t]);
@@ -66,53 +65,19 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
                     break;
                 case StateIs.Move://нужно сделать расходование очков движения
                     {
-                        if (Input.GetMouseButton(0))
-                        {
-                            State = 1;
-                            DeletePoints();
-                            Move();
-                            State = 1;
-                        }
+                        if (Input.GetMouseButton(0)) Move();
                         if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f)) switcher = StateIs.Ability;
                     }
                     break;
                 case StateIs.Ability:
                     {
+                        finalPoint = Vector3.zero;
                         turnBaser.timeToNext = true;
                     }
                     break;
             }
         }
-
-
-
-
-
-
-
-        //if (Input.GetMouseButton(2))
-        //{
-        //    active = false;
-        //    outline.OutlineWidth = 0;
-        //}
-        //if (Input.GetMouseButton(0) && active)
-        //{
-        //    State = 1;
-        //    DeletePoints();
-        //    Move();
-        //    State = 1;
-        //}
-        //if (Input.GetMouseButton(1) && active)
-        //{
-        //    DeletePoints();
-        //    tilesToGo = FindObjectsOfType<ClickReceiver>();
-        //    Debug.Log(tilesToGo.Length);
-        //    for (int t = 0; t < tilesToGo.Length; t++)
-        //    {
-        //        FindPath(tilesToGo[t]);
-        //    }
-        //}
-        if ((Mathf.Abs(transform.position.x - targetToGo.x) < 0.6f && Mathf.Abs(transform.position.z - targetToGo.z) < 0.6f))
+        if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f))
         {
             State = 0;
         }
@@ -121,8 +86,6 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
             DeletePoints();
             outline.OutlineWidth = 0;
         }
-        //else
-        //    outline.OutlineWidth = 2;
     }
     public void Move()
     {
@@ -138,8 +101,9 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
 
             if (clickDistance <= maxDistance)
             {
-                agent.SetDestination(targetToGo);
                 State = 1;
+                DeletePoints();
+                agent.SetDestination(targetToGo);
             }
         }
     }
@@ -148,7 +112,7 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
         NavMeshPath findPath = new NavMeshPath();
         if (NavMesh.CalculatePath(transform.position, tileToCheck.transform.position, NavMesh.AllAreas, findPath) && (Mathf.Abs(transform.position.x - tileToCheck.transform.position.x) > 0.6f || Mathf.Abs(transform.position.z - tileToCheck.transform.position.z) > 0.6f)) // не ищет путь по отрицательным координатам, спотыкается о свое текущее положение(исключить текущий тайл из обхода
         {
-            Debug.Log(tileToCheck.transform.position);
+            //Debug.Log(tileToCheck.transform.position);
             possibleDistance = Vector3.Distance(transform.position, findPath.corners[1]);
             for (int i = 1; i < findPath.corners.Length - 1; i++)
             {
