@@ -4,20 +4,20 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
-public class MoveShit : MonoBehaviour, IPointerClickHandler
+public class MoveShit : MonoBehaviour//, IPointerClickHandler
 {
-    public Camera mainCamera;
+    //public Camera mainCamera;
     public NavMeshAgent agent;
     public Vector3 targetToGo;
     public Vector3 finalPoint;
     public float clickDistance;
     public float possibleDistance;
     public float maxDistance;
-    public bool canGo;
+    //public bool canGo;
     public ClickReceiver[] tilesToGo;
     public GameObject pointToGo;
     private List<GameObject> pointS = new List<GameObject>();
-    public Animator animator;
+    //public Animator animator;
     public bool active;
     public Outline outline;
     public float upScale;
@@ -26,9 +26,9 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
 
     public void Start()
     {
-        mainCamera = Camera.main;
+        //mainCamera = Camera.main;
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         outline = GetComponent<Outline>();
         turnBaser = GetComponent<TurnBaser>();
         turnBaser = FindObjectOfType<TurnBaser>();
@@ -38,13 +38,13 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
     }
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
-    public int State
-    {
-        get { return animator.GetInteger("State"); }
-        set { animator.SetInteger("State", value); }
-    }
+    //public int State
+    //{
+    //    get { return animator.GetInteger("State"); }
+    //    set { animator.SetInteger("State", value); }
+    //}
     public void Update()
     {
         if (active)
@@ -77,10 +77,10 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
                     break;
             }
         }
-        if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f))
-        {
-            State = 0;
-        }
+        //if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f))
+        //{
+        //    State = 0;
+        //}
         if (!active)
         {
             DeletePoints();
@@ -101,7 +101,7 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
 
             if (clickDistance <= maxDistance)
             {
-                State = 1;
+                //State = 1;
                 DeletePoints();
                 agent.SetDestination(targetToGo);
             }
@@ -134,11 +134,11 @@ public class MoveShit : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        active = true;
-        outline.OutlineWidth = 2;
-    }
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    active = true;
+    //    outline.OutlineWidth = 2;
+    //}
 }
 
 

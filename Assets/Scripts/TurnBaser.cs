@@ -5,11 +5,13 @@ using UnityEngine;
 public class TurnBaser : MonoBehaviour
 {
     public MoveShit[] shits;
+    public CharBattle[] battleunits;
     public bool timeToNext = false;
     public int turnNumber = 0;
     void Start()
     {
         shits = FindObjectsOfType<MoveShit>();
+        battleunits = FindObjectsOfType<CharBattle>();
         NextChar(turnNumber);
     }
 
@@ -17,8 +19,9 @@ public class TurnBaser : MonoBehaviour
     {
         if (timeToNext && turnNumber < shits.Length)
         {
-            Debug.Log(timeToNext);
-            shits[turnNumber].active = false;
+            //shits[turnNumber].active = false;
+            battleunits[turnNumber].active = false;
+
             turnNumber++;
             if (turnNumber == 3)
                 turnNumber = 0;
@@ -29,7 +32,10 @@ public class TurnBaser : MonoBehaviour
     }
     public void NextChar(int i)
     {
-        shits[i].switcher = StateIs.Start;
-        shits[i].active = true;
+        //shits[i].switcher = StateIs.Start;
+        //shits[i].active = true;
+
+        battleunits[i].switcher = CharStateIs.Start;
+        battleunits[i].active = true;
     }
 }
