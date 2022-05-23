@@ -22,10 +22,8 @@ public class CharBattle : BattleUnit
         turnBaser = GetComponent<TurnBaser>();
         turnBaser = FindObjectOfType<TurnBaser>();
         outline = GetComponent<Outline>();
-        active = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (active)
@@ -42,7 +40,6 @@ public class CharBattle : BattleUnit
                     {
                         if (Input.GetMouseButton(0))
                         {
-                            //Debug.Log(clickReceiver.cursorCoords); //обращается к 0.0.0 тайлу. надо отправлять координаты в класс от кликера
                             Move(cursorPoint, speed, out finalPoint);
                         }
                         if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f)) 
@@ -51,7 +48,7 @@ public class CharBattle : BattleUnit
                     break;
                 case CharStateIs.Ability:
                     {
-                        //finalPoint = Vector3.zero;
+                        finalPoint = new Vector3(-100,-100,-100);
                         turnBaser.timeToNext = true;
                     }
                     break;

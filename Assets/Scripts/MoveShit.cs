@@ -120,7 +120,7 @@ public class MoveShit : MonoBehaviour//, IPointerClickHandler
             }
             if (possibleDistance <= maxDistance)
             {
-                GameObject newPoint = Instantiate(pointToGo, tileToCheck.transform.position + new Vector3(0,upScale,0), tileToCheck.transform.rotation);
+                GameObject newPoint = Instantiate(pointToGo, tileToCheck.transform.position, tileToCheck.transform.rotation);
                 pointS.Add(newPoint);
             }
         }
