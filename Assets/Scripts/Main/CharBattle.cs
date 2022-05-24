@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class CharBattle : BattleUnit
+public class CharBattle : BattleUnit, IPointerEnterHandler
 {
     [SerializeField]
     public float speed;
@@ -10,15 +12,15 @@ public class CharBattle : BattleUnit
 
     public bool active;
     public CharStateIs switcher;
-    public ClickReceiver clickReceiver;
+    //public ClickReceiver clickReceiver;
     public Vector3 finalPoint;
     public Vector3 cursorPoint;
     public TurnBaser turnBaser;
     public Outline outline;
     void Start()
     {
-        clickReceiver = GetComponent<ClickReceiver>();
-        clickReceiver = FindObjectOfType<ClickReceiver>();
+        //clickReceiver = GetComponent<ClickReceiver>();
+        //clickReceiver = FindObjectOfType<ClickReceiver>();
         turnBaser = GetComponent<TurnBaser>();
         turnBaser = FindObjectOfType<TurnBaser>();
         outline = GetComponent<Outline>();
@@ -60,6 +62,11 @@ public class CharBattle : BattleUnit
             outline.OutlineWidth = 0;
         }
         else outline.OutlineWidth = 2;
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        outline.OutlineColor = Color.red;
+        Debug.Log("MouseOnMe");
     }
 }
 public enum CharStateIs

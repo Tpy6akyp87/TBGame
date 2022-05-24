@@ -37,6 +37,5 @@ public class TurnBaser : MonoBehaviour
 
         battleunits[i].switcher = CharStateIs.Start;
         battleunits[i].active = true;
-        Debug.Log(battleunits[i].active);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class LiveUnit : Unit
 {
@@ -10,6 +11,7 @@ public class LiveUnit : Unit
     public GameObject pointToGo; 
     public float upScale;//временная поднималка подсветки возможного пути
     private List<GameObject> pointS = new List<GameObject>();
+    public bool mouseOnMe;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -76,4 +78,7 @@ public class LiveUnit : Unit
             Destroy(pointS[i]);
         }
     }
+
+
+    
 }
