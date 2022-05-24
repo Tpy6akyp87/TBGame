@@ -12,30 +12,30 @@ public class TurnBaser : MonoBehaviour
     {
         shits = FindObjectsOfType<MoveShit>();
         battleunits = FindObjectsOfType<CharBattle>();
-        NextChar(turnNumber);
+        ActivateChar(turnNumber);
     }
 
     public void Update()//нужно сделать взврат к первому ходившему
     {
-        if (timeToNext && turnNumber < shits.Length)
+        if (timeToNext && turnNumber < battleunits.Length)
         {
-            //shits[turnNumber].active = false;
-            battleunits[turnNumber].active = false;
-
+            DeactivateChar(turnNumber);
             turnNumber++;
             if (turnNumber == 3)
                 turnNumber = 0;
-            NextChar(turnNumber);
+            ActivateChar(turnNumber);
             timeToNext = false;
         }
         
     }
-    public void NextChar(int i)
+    public void ActivateChar(int i)
     {
-        //shits[i].switcher = StateIs.Start;
-        //shits[i].active = true;
-
         battleunits[i].switcher = CharStateIs.Start;
         battleunits[i].active = true;
+    }
+    public void DeactivateChar(int i) 
+    {
+        battleunits[turnNumber].active = false;
+        battleunits[turnNumber].outline.OutlineWidth = 0;
     }
 }

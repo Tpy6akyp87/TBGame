@@ -4,23 +4,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CharBattle : BattleUnit, IPointerEnterHandler
+public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     public float speed;
 
-
+    public Camera mainCamera;
     public bool active;
     public CharStateIs switcher;
-    //public ClickReceiver clickReceiver;
     public Vector3 finalPoint;
     public Vector3 cursorPoint;
     public TurnBaser turnBaser;
     public Outline outline;
+    public bool targeted;
+    public BattleUnit target;
     void Start()
     {
-        //clickReceiver = GetComponent<ClickReceiver>();
-        //clickReceiver = FindObjectOfType<ClickReceiver>();
+        target = null;
+        mainCamera = Camera.main;
         turnBaser = GetComponent<TurnBaser>();
         turnBaser = FindObjectOfType<TurnBaser>();
         outline = GetComponent<Outline>();
@@ -34,6 +35,9 @@ public class CharBattle : BattleUnit, IPointerEnterHandler
             {
                 case CharStateIs.Start:
                     {
+                        outline.OutlineColor = Color.green;
+                        outline.OutlineWidth = 2;
+                        targeted = false;
                         FindPath(speed);
                         switcher = CharStateIs.Move;
                     }
@@ -50,33 +54,64 @@ public class CharBattle : BattleUnit, IPointerEnterHandler
                     break;
                 case CharStateIs.Ability:
                     {
-                        finalPoint = new Vector3(-100,-100,-100);
-                        turnBaser.timeToNext = true;
+                        DeletePoints();
+                        if (Input.GetMouseButton(0))
+                        {
+                            FindTarget();
+                            if (target != null)
+                            {
+                                DoDamage(target, 1);
+                            }
+                            switcher = CharStateIs.Next;
+                        }
+                    }
+                    break;
+                case CharStateIs.Next:
+                    {
+                        target = null;
+                        if (Input.GetMouseButton(1))
+                            turnBaser.timeToNext = true;
+                        finalPoint = new Vector3(-100, -100, -100);
                     }
                     break;
             }
         }
-        if (!active)
-        {
-            DeletePoints();
-            outline.OutlineWidth = 0;
-        }
-        else outline.OutlineWidth = 2;
+        
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        outline.OutlineColor = Color.red;
-        Debug.Log("MouseOnMe");
+        if (!active)
+        {
+            outline.OutlineColor = Color.red;
+            outline.OutlineWidth = 2;
+            targeted = true;
+        }
     }
-    public void OnPointerMove(PointerEventData eventData)
+    
+    public void OnPointerExit(PointerEventData eventData)
     {
-        outline.OutlineColor = Color.red;
-        Debug.Log("MouseOnMe");
+        if (!active)
+        {
+            targeted = false;
+            outline.OutlineWidth = 0;
+        }
+    }
+    public void FindTarget() 
+    {
+        for (int i = 0; i < turnBaser.battleunits.Length; i++)
+        {
+            if (turnBaser.battleunits[i].targeted)
+            {
+                target = turnBaser.battleunits[i];
+                Debug.Log("Нашёл цель:   " + target);
+            }
+        }
     }
 }
 public enum CharStateIs
 {
     Start,
     Move,
-    Ability
+    Ability,
+    Next
 }

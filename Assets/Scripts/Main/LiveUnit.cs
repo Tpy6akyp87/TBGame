@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class LiveUnit : Unit
 {
+    public int health;
     public NavMeshAgent agent;
-    //public Outline outline;
     public GameObject pointToGo; 
     public float upScale;//временная поднималка подсветки возможного пути
     private List<GameObject> pointS = new List<GameObject>();
@@ -15,8 +15,6 @@ public class LiveUnit : Unit
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        //outline = GetComponent<Outline>();
-        //outline.OutlineWidth = 0;
     }
     void Update()
     {
@@ -66,9 +64,9 @@ public class LiveUnit : Unit
         
 
     }
-    public void ReceiveDamage() 
+    public void ReceiveDamage(int dmg) 
     {
-
+        health -= dmg;
     }
 
     public void DeletePoints()

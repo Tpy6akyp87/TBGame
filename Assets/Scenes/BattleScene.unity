@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -254,7 +254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &243541653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +373,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7232280512709839571, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712681618981377001, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: outlineWidth
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7712681618981377012, guid: 9862a3c95453a924fab15c446012f098, type: 3}
@@ -602,22 +606,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058274dabf4ff31409fb3b420a156b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
   agent: {fileID: 767755615}
   pointToGo: {fileID: 2199304521246436537, guid: 00618ff73cd59b44494780fb7a0291e7, type: 3}
   upScale: 0.55
+  mouseOnMe: 0
   speed: 4
+  mainCamera: {fileID: 0}
   active: 0
   switcher: 0
-  clickReceiver: {fileID: 0}
   finalPoint: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
   turnBaser: {fileID: 0}
   outline: {fileID: 0}
+  targeted: 0
+  target: {fileID: 0}
 --- !u!195 &767755615 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 8425601379190220185, guid: 9862a3c95453a924fab15c446012f098, type: 3}
   m_PrefabInstance: {fileID: 358573942}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &767755619
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767755612}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.9446566
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9723285, z: 0}
 --- !u!1 &975242381
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,22 +732,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058274dabf4ff31409fb3b420a156b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
   agent: {fileID: 1332067199}
   pointToGo: {fileID: 2199304521246436537, guid: 00618ff73cd59b44494780fb7a0291e7, type: 3}
   upScale: 0.55
+  mouseOnMe: 0
   speed: 5
+  mainCamera: {fileID: 0}
   active: 0
   switcher: 0
-  clickReceiver: {fileID: 0}
   finalPoint: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
   turnBaser: {fileID: 0}
   outline: {fileID: 0}
+  targeted: 0
+  target: {fileID: 0}
 --- !u!195 &1332067199 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 8425601379190220185, guid: 9862a3c95453a924fab15c446012f098, type: 3}
   m_PrefabInstance: {fileID: 2114242247}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &1332067203
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332067196}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.8417504
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9208753, z: 0}
 --- !u!1001 &1462550224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -795,6 +835,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 164cd000b89b7fb4caaeb9f6384f4058, type: 3}
+--- !u!4 &1504725201 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8399368168006795136, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+  m_PrefabInstance: {fileID: 1749309211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1733350137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -863,9 +908,17 @@ PrefabInstance:
       propertyPath: outlineMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7712681618981377001, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: outlineWidth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7712681618981377012, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_Name
-      value: Moving1
+      value: MovingArmored
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712681618981377012, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7712681620194447118, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_RootOrder
@@ -947,22 +1000,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058274dabf4ff31409fb3b420a156b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
   agent: {fileID: 1749309217}
   pointToGo: {fileID: 2199304521246436537, guid: 00618ff73cd59b44494780fb7a0291e7, type: 3}
   upScale: 0.55
+  mouseOnMe: 0
   speed: 3
+  mainCamera: {fileID: 0}
   active: 0
   switcher: 0
-  clickReceiver: {fileID: 0}
   finalPoint: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
   turnBaser: {fileID: 0}
   outline: {fileID: 0}
+  targeted: 0
+  target: {fileID: 0}
 --- !u!195 &1749309217 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 8425601379190220185, guid: 9862a3c95453a924fab15c446012f098, type: 3}
   m_PrefabInstance: {fileID: 1749309211}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &1749309219
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749309213}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 3.0321257
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.016063, z: 0}
 --- !u!1 &1931113544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1206,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1240563307931085462, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1476091768789830518, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1167,9 +1242,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7712681618981377001, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: outlineWidth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7712681618981377012, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_Name
-      value: Moving3
+      value: MovingBold
       objectReference: {fileID: 0}
     - target: {fileID: 7712681620194447118, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_RootOrder
@@ -1218,6 +1297,18 @@ PrefabInstance:
     - target: {fileID: 8048819719454242748, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054558270801930491, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: m_RootBone
+      value: 
+      objectReference: {fileID: 1504725201}
+    - target: {fileID: 8054558270801930491, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054558270801930491, guid: 9862a3c95453a924fab15c446012f098, type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8311164343302257312, guid: 9862a3c95453a924fab15c446012f098, type: 3}
       propertyPath: upScale
