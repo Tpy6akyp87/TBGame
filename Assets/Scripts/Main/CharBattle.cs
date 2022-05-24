@@ -68,6 +68,11 @@ public class CharBattle : BattleUnit, IPointerEnterHandler
         outline.OutlineColor = Color.red;
         Debug.Log("MouseOnMe");
     }
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        outline.OutlineColor = Color.red;
+        Debug.Log("MouseOnMe");
+    }
 }
 public enum CharStateIs
 {

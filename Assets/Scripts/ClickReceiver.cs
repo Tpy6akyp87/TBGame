@@ -20,15 +20,10 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //for (int i = 0; i < shit.Length; i++)
-        //{
-        //    shit[i].targetToGo = gameObject.transform.position;
-        //}
         for (int i = 0; i < charBattles.Length; i++)
         {
             charBattles[i].cursorPoint = gameObject.transform.position;
         }
-        //cursorCoords = gameObject.transform.position;
         gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
     }
 
@@ -39,12 +34,6 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        //for (int i = 0; i < shit.Length; i++)
-        //{
-        //    shit[i].targetToGo = gameObject.transform.position;
-        //}
-        //cursorCoords = gameObject.transform.position;
-        //Debug.Log(cursorCoords);
         gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
     }
 
