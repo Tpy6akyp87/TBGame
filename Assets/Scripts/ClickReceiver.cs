@@ -5,26 +5,46 @@ using UnityEngine.EventSystems;
 
 public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
-
-    public MoveShit[] shit;
-    public CharBattle[] charBattles;
+    public LiveUnit[] liveUnits;
+    public ClickReceiver[] clickReceivers;
     public Vector3 cursorCoords;
     public Material materialSet;
     public Material materialStart;
 
     public void Start()
     {
-        shit = FindObjectsOfType<MoveShit>();
-        charBattles = FindObjectsOfType<CharBattle>();
+        liveUnits = FindObjectsOfType<LiveUnit>();
         materialStart = gameObject.GetComponentInChildren<MeshRenderer>().material;
+        Debug.Log(liveUnits.Length);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        for (int i = 0; i < charBattles.Length; i++)
+        int flag = 0;
+        for (int i = 0; i < liveUnits.Length; i++)
         {
-            charBattles[i].cursorPoint = gameObject.transform.position;
+            if ((Mathf.Abs(liveUnits[i].transform.position.x - gameObject.transform.position.x) < 0.6f && Mathf.Abs(liveUnits[i].transform.position.z - gameObject.transform.position.z) < 0.6f))
+            {
+                flag++;
+            }
         }
-        gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
+        if (flag > 0)
+        {
+            for (int i = 0; i < liveUnits.Length; i++)
+            {
+                liveUnits[i].cursorPoint = new Vector3(100, 100, 100);
+            }
+            Debug.Log("низя");
+            gameObject.GetComponentInChildren<MeshRenderer>().material = materialStart;
+        }
+        else
+        {
+            for (int i = 0; i < liveUnits.Length; i++)
+            {
+                liveUnits[i].cursorPoint = gameObject.transform.position;
+            }
+            Debug.Log("можно");
+            gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -34,7 +54,7 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
+        //gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
     }
 
 

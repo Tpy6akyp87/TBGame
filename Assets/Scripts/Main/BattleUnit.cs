@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BattleUnit : LiveUnit
 {
-    //public int health;
-    // Start is called before the first frame update
     void Start()
     {
         
@@ -19,7 +17,7 @@ public class BattleUnit : LiveUnit
     public void DoDamage(LiveUnit target, int dmg) 
     {
         Debug.Log("нанес урон по     " + target);
-        ReceiveDamage(dmg); //вы€снить
+        target.ReceiveDamage(dmg); //вы€снить
         //target.health -= dmg;
         Debug.Log("теперь у   " + target + "      " + target.health + "    здоровь€");
     }

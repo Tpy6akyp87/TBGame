@@ -7,14 +7,22 @@ using UnityEngine.EventSystems;
 public class LiveUnit : Unit
 {
     public int health;
+    public float speed;
     public NavMeshAgent agent;
     public GameObject pointToGo; 
     public float upScale;//временная поднималка подсветки возможного пути
     private List<GameObject> pointS = new List<GameObject>();
     public bool mouseOnMe;
+    public bool targeted;
+    public bool active;
+    public LiveUnit target;
+    public Outline outline;
+    public Vector3 myPosition;
+    public Vector3 cursorPoint;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        outline = GetComponent<Outline>();
     }
     void Update()
     {

@@ -5,19 +5,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
-{
-    [SerializeField]
-    public float speed;
-
+{   
     public Camera mainCamera;
-    public bool active;
     public CharStateIs switcher;
     public Vector3 finalPoint;
-    public Vector3 cursorPoint;
     public TurnBaser turnBaser;
-    public Outline outline;
-    public bool targeted;
-    public BattleUnit target;
     void Start()
     {
         target = null;
@@ -25,6 +17,7 @@ public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
         turnBaser = GetComponent<TurnBaser>();
         turnBaser = FindObjectOfType<TurnBaser>();
         outline = GetComponent<Outline>();
+        switcher = CharStateIs.Start;
     }
 
     void Update()
@@ -70,8 +63,11 @@ public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
                     {
                         target = null;
                         if (Input.GetMouseButton(1))
+                        {
                             turnBaser.timeToNext = true;
-                        finalPoint = new Vector3(-100, -100, -100);
+                            finalPoint = new Vector3(-100, -100, -100);
+                            switcher = CharStateIs.Start;
+                        }
                     }
                     break;
             }

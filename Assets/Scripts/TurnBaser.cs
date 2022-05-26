@@ -5,7 +5,7 @@ using UnityEngine;
 public class TurnBaser : MonoBehaviour
 {
     public MoveShit[] shits;
-    public CharBattle[] battleunits;
+    public LiveUnit[] battleunits;
     public bool timeToNext = false;
     public int turnNumber = 0;
     void Start()
@@ -21,7 +21,7 @@ public class TurnBaser : MonoBehaviour
         {
             DeactivateChar(turnNumber);
             turnNumber++;
-            if (turnNumber == 3)
+            if (turnNumber == battleunits.Length)
                 turnNumber = 0;
             ActivateChar(turnNumber);
             timeToNext = false;
@@ -30,7 +30,7 @@ public class TurnBaser : MonoBehaviour
     }
     public void ActivateChar(int i)
     {
-        battleunits[i].switcher = CharStateIs.Start;
+        //battleunits[i].switcher = CharStateIs.Start;
         battleunits[i].active = true;
     }
     public void DeactivateChar(int i) 
