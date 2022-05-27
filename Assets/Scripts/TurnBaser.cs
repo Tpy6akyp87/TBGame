@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class TurnBaser : MonoBehaviour
 {
-    public MoveShit[] shits;
+    public CharBattle[] friendlyBattleUnit;
     public LiveUnit[] battleunits;
     public bool timeToNext = false;
     public int turnNumber = 0;
     void Start()
     {
-        shits = FindObjectsOfType<MoveShit>();
-        battleunits = FindObjectsOfType<CharBattle>();
+        friendlyBattleUnit = FindObjectsOfType<CharBattle>();
+        battleunits = FindObjectsOfType<LiveUnit>();
+        for (int i = 0; i < battleunits.Length; i++)
+        {
+            Debug.Log(battleunits[i]);
+        }
         ActivateChar(turnNumber);
     }
 
@@ -30,8 +34,8 @@ public class TurnBaser : MonoBehaviour
     }
     public void ActivateChar(int i)
     {
-        //battleunits[i].switcher = CharStateIs.Start;
         battleunits[i].active = true;
+        //Debug.Log(battleunits[i]);
     }
     public void DeactivateChar(int i) 
     {

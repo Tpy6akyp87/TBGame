@@ -6,12 +6,16 @@ using UnityEngine;
 public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
 {
     public TurnBaser turnBaser;
-
+    public EnemyStateIs switcher;
+    public Vector3 finalPoint;
+    public ClickReceiver clickReceiver;
+    //public LiveUnit target;
 
 
 
     void Start()
     {
+        clickReceiver = GetComponent<ClickReceiver>();
         outline = GetComponent<Outline>();
         turnBaser = GetComponent<TurnBaser>();
         turnBaser = FindObjectOfType<TurnBaser>();
@@ -19,30 +23,80 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
     // findtrget - move - doDamage
     void Update()
     {
-        
+        if (active)
+        {
+            switch (switcher)
+            {
+                case EnemyStateIs.Start:
+                    {
+                        outline.OutlineColor = Color.red;
+                        outline.OutlineWidth = 2;
+                        switcher = EnemyStateIs.Move;
+                    }
+                    break;
+                case EnemyStateIs.Move://нужно сделать расходование очков движения
+                    {
+                        FindTarget(out target);
+                        Move(target.transform.position, speed, out finalPoint);
+                        if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f))
+                            switcher = EnemyStateIs.Ability;
+                    }
+                    break;
+                case EnemyStateIs.Ability:
+                    {
+                        DeletePoints();
+                        DoDamage(target, 1);
+                        switcher = EnemyStateIs.Next;
+                    }
+                    break;
+                case EnemyStateIs.Next:
+                    {
+                        target = null;
+                        turnBaser.timeToNext = true;
+                        finalPoint = new Vector3(-100, -100, -100);
+                        switcher = EnemyStateIs.Start;
+                    }
+                    break;
+            }
+        }
     }
     public void FindTarget(out LiveUnit target)
     {
-        target = null;
-        for (int i = 0; i < turnBaser.battleunits.Length - 1; i++)
+        //target = null;
+        for (int i = 0; i < turnBaser.friendlyBattleUnit.Length - 1; i++)
         {
-            for (int j = i+1; j < turnBaser.battleunits.Length; i++)
+            for (int j = i+1; j < turnBaser.friendlyBattleUnit.Length; j++)
             {
-                if (turnBaser.battleunits[i].health > turnBaser.battleunits[j].health)
-                    turnBaser.battleunits[i].health = turnBaser.battleunits[i].health + turnBaser.battleunits[j].health - (turnBaser.battleunits[j].health = turnBaser.battleunits[i].health);
+                if (turnBaser.friendlyBattleUnit[i].health > turnBaser.friendlyBattleUnit[j].health)
+                    turnBaser.friendlyBattleUnit[i].health = turnBaser.friendlyBattleUnit[i].health + turnBaser.friendlyBattleUnit[j].health - (turnBaser.friendlyBattleUnit[j].health = turnBaser.friendlyBattleUnit[i].health);
             }
-            //turnBaser.battleunits.
-            //if (turnBaser.battleunits[i].targeted)
-            //{
-            //    target = turnBaser.battleunits[i];
-            //    Debug.Log("Нашёл цель:   " + target);
-            //}
         }
-        target = turnBaser.battleunits[0];
+        target = turnBaser.friendlyBattleUnit[0];
+        Debug.Log(target);
     }
     public void FindWayPoint(LiveUnit target)
     {
-        //попробовать пойти к цели напрямую (по идее начнет толкаться)
+        float[] minDistanceToTarget = new float[clickReceiver.clickReceivers.Length];
+
+        for (int i = 0; i < clickReceiver.clickReceivers.Length; i++)//заполняю массив растояний от тайлов до цели
+        {
+            minDistanceToTarget[i] = (clickReceiver.clickReceivers[i].transform.position - target.transform.position).magnitude;
+        }
+
+        for (int i = 0; i < minDistanceToTarget.Length - 1; i++)//сортирую по возрастанию 
+        {
+            for (int j = i + 1; j < minDistanceToTarget.Length; j++)
+            {
+                if (minDistanceToTarget[i] > minDistanceToTarget[j])
+                    minDistanceToTarget[i] = minDistanceToTarget[i] + minDistanceToTarget[j] - (minDistanceToTarget[j] = minDistanceToTarget[i]);
+            }
+        }
+        for (int i = 1; i < 10; i++)
+        {
+            //надо вернуть ИМЕННО нужный кликресивер
+        }
+        //найти кликресивер на минимальном расстоянии от таргета
+        //найти кликресивер на минимальном расстоянии от геймобьекта
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -57,4 +111,11 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
         targeted = false;
         outline.OutlineWidth = 0;
     }
+}
+public enum EnemyStateIs
+{
+    Start,
+    Move,
+    Ability,
+    Next
 }

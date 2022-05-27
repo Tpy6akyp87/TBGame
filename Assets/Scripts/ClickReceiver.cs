@@ -13,9 +13,9 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
 
     public void Start()
     {
+        clickReceivers = FindObjectsOfType<ClickReceiver>();
         liveUnits = FindObjectsOfType<LiveUnit>();
         materialStart = gameObject.GetComponentInChildren<MeshRenderer>().material;
-        Debug.Log(liveUnits.Length);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -33,7 +33,6 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
             {
                 liveUnits[i].cursorPoint = new Vector3(100, 100, 100);
             }
-            Debug.Log("низя");
             gameObject.GetComponentInChildren<MeshRenderer>().material = materialStart;
         }
         else
@@ -42,7 +41,6 @@ public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHa
             {
                 liveUnits[i].cursorPoint = gameObject.transform.position;
             }
-            Debug.Log("можно");
             gameObject.GetComponentInChildren<MeshRenderer>().material = materialSet;
         }
     }
