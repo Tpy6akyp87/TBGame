@@ -16,7 +16,7 @@ public class BattleUnit : LiveUnit
     }
     public void DoDamage(LiveUnit target, int dmg) 
     {
-        Debug.Log("нанес урон по     " + target);
+        //Debug.Log("нанес урон по     " + target);
         target.ReceiveDamage(dmg); //выяснить
         //target.health -= dmg;
         Debug.Log("теперь у   " + target + "      " + target.health + "    здоровья");

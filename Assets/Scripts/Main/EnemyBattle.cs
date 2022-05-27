@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
 {
+    public LiveUnit[] liveUnits;
     public TurnBaser turnBaser;
     public EnemyStateIs switcher;
     public Vector3 finalPoint;
@@ -15,6 +16,7 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
+        liveUnits = FindObjectsOfType<LiveUnit>();
         clickReceiver = GetComponent<ClickReceiver>();
         outline = GetComponent<Outline>();
         turnBaser = GetComponent<TurnBaser>();
@@ -37,8 +39,9 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
                 case EnemyStateIs.Move://нужно сделать расходование очков движени€
                     {
                         FindTarget(out target);
-                        Move(target.transform.position, speed, out finalPoint);
-                        if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.6f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.6f))
+                        FindWayPoint(target, out clickReceiver);
+                        Move(clickReceiver.transform.position, speed, out finalPoint);
+                        if ((Mathf.Abs(transform.position.x - finalPoint.x) < 0.9f && Mathf.Abs(transform.position.z - finalPoint.z) < 0.9f))
                             switcher = EnemyStateIs.Ability;
                     }
                     break;
@@ -62,7 +65,6 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
     }
     public void FindTarget(out LiveUnit target)
     {
-        //target = null;
         for (int i = 0; i < turnBaser.friendlyBattleUnit.Length - 1; i++)
         {
             for (int j = i+1; j < turnBaser.friendlyBattleUnit.Length; j++)
@@ -71,32 +73,70 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
                     turnBaser.friendlyBattleUnit[i].health = turnBaser.friendlyBattleUnit[i].health + turnBaser.friendlyBattleUnit[j].health - (turnBaser.friendlyBattleUnit[j].health = turnBaser.friendlyBattleUnit[i].health);
             }
         }
-        target = turnBaser.friendlyBattleUnit[0];
+        target = turnBaser.friendlyBattleUnit[turnBaser.friendlyBattleUnit.Length - 1];
         Debug.Log(target);
     }
-    public void FindWayPoint(LiveUnit target)
+    public void FindWayPoint(LiveUnit target, out ClickReceiver wayPoint)
     {
-        float[] minDistanceToTarget = new float[clickReceiver.clickReceivers.Length];
+        wayPoint = null;
+        float[] minDistanceToTarget = new float[turnBaser.clickReceivers.Length];
+        float[] minDToObj = new float[9];
+        ClickReceiver temp;
 
-        for (int i = 0; i < clickReceiver.clickReceivers.Length; i++)//заполн€ю массив расто€ний от тайлов до цели
+        for (int i = 0; i < turnBaser.clickReceivers.Length; i++)
         {
-            minDistanceToTarget[i] = (clickReceiver.clickReceivers[i].transform.position - target.transform.position).magnitude;
+            minDistanceToTarget[i] = (turnBaser.clickReceivers[i].transform.position - target.transform.position).magnitude;
         }
 
-        for (int i = 0; i < minDistanceToTarget.Length - 1; i++)//сортирую по возрастанию 
+        for (int i = 0; i < minDistanceToTarget.Length - 1; i++)
         {
             for (int j = i + 1; j < minDistanceToTarget.Length; j++)
             {
                 if (minDistanceToTarget[i] > minDistanceToTarget[j])
+                {
                     minDistanceToTarget[i] = minDistanceToTarget[i] + minDistanceToTarget[j] - (minDistanceToTarget[j] = minDistanceToTarget[i]);
+                    temp = turnBaser.clickReceivers[i];
+                    turnBaser.clickReceivers[i] = turnBaser.clickReceivers[j];
+                    turnBaser.clickReceivers[j] = temp;
+                }
             }
         }
         for (int i = 1; i < 10; i++)
         {
-            //надо вернуть »ћ≈ЌЌќ нужный кликресивер
+            minDToObj[i-1] = (turnBaser.clickReceivers[i].transform.position - gameObject.transform.position).magnitude;
         }
-        //найти кликресивер на минимальном рассто€нии от таргета
-        //найти кликресивер на минимальном рассто€нии от геймобьекта
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = i+1; j < 9; j++)
+            {
+                if (minDToObj[i] > minDToObj[j])
+                {
+                    minDToObj[i] = minDToObj[i] + minDToObj[j] - (minDToObj[j] = minDToObj[i]);
+                    temp = turnBaser.clickReceivers[i+1];
+                    turnBaser.clickReceivers[i+1] = turnBaser.clickReceivers[j+1];
+                    turnBaser.clickReceivers[j+1] = temp;
+                }
+            }
+        }
+        
+        for (int j = 1; j < 10; j++)
+        {
+            int flag = 0;
+            for (int i = 0; i < liveUnits.Length; i++)
+            {
+                if ((Mathf.Abs(liveUnits[i].transform.position.x - turnBaser.clickReceivers[j].transform.position.x) < 0.6f && Mathf.Abs(liveUnits[i].transform.position.z - turnBaser.clickReceivers[j].transform.position.z) < 0.6f))
+                {
+                    flag++;
+                }
+            }
+            if (flag == 0)
+            {
+                wayPoint = turnBaser.clickReceivers[j];
+                break;
+            }
+        }
+        
+        //wayPoint = turnBaser.clickReceivers[1];
     }
 
     public void OnPointerEnter(PointerEventData eventData)

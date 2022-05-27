@@ -6,14 +6,12 @@ using UnityEngine.EventSystems;
 public class ClickReceiver : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
     public LiveUnit[] liveUnits;
-    public ClickReceiver[] clickReceivers;
     public Vector3 cursorCoords;
     public Material materialSet;
     public Material materialStart;
 
     public void Start()
     {
-        clickReceivers = FindObjectsOfType<ClickReceiver>();
         liveUnits = FindObjectsOfType<LiveUnit>();
         materialStart = gameObject.GetComponentInChildren<MeshRenderer>().material;
     }

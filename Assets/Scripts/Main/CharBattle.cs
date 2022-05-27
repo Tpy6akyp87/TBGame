@@ -78,7 +78,7 @@ public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
     {
         if (!active)
         {
-            outline.OutlineColor = Color.red;
+            outline.OutlineColor = Color.green;
             outline.OutlineWidth = 2;
             targeted = true;
         }
@@ -99,7 +99,6 @@ public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
             if (turnBaser.battleunits[i].targeted)
             {
                 target = turnBaser.battleunits[i];
-                Debug.Log("Нашёл цель:   " + target);
             }
         }
     }
