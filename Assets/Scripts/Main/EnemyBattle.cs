@@ -65,12 +65,18 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
     }
     public void FindTarget(out LiveUnit target)
     {
+        CharBattle temp;
         for (int i = 0; i < turnBaser.friendlyBattleUnit.Length - 1; i++)
         {
             for (int j = i+1; j < turnBaser.friendlyBattleUnit.Length; j++)
             {
                 if (turnBaser.friendlyBattleUnit[i].health > turnBaser.friendlyBattleUnit[j].health)
-                    turnBaser.friendlyBattleUnit[i].health = turnBaser.friendlyBattleUnit[i].health + turnBaser.friendlyBattleUnit[j].health - (turnBaser.friendlyBattleUnit[j].health = turnBaser.friendlyBattleUnit[i].health);
+                {
+                    temp = turnBaser.friendlyBattleUnit[i];
+                    turnBaser.friendlyBattleUnit[i] = turnBaser.friendlyBattleUnit[j];
+                    turnBaser.friendlyBattleUnit[j] = temp;
+                }    
+                    //turnBaser.friendlyBattleUnit[i].health = turnBaser.friendlyBattleUnit[i].health + turnBaser.friendlyBattleUnit[j].health - (turnBaser.friendlyBattleUnit[j].health = turnBaser.friendlyBattleUnit[i].health);
             }
         }
         target = turnBaser.friendlyBattleUnit[turnBaser.friendlyBattleUnit.Length - 1];

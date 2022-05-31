@@ -18,7 +18,7 @@ public class TurnBaser : MonoBehaviour
         Debug.Log(clickReceivers.Length);
         friendlyBattleUnit = FindObjectsOfType<CharBattle>();
         battleunits = FindObjectsOfType<LiveUnit>();
-        ActivateChar(turnNumber);
+        ActivateChar();
         for (int i = 0; i < battleunits.Length; i++)
         {
             Button newbutton = Instantiate(button, gameObject.transform);
@@ -37,15 +37,16 @@ public class TurnBaser : MonoBehaviour
             turnNumber++;
             if (turnNumber == battleunits.Length)
                 turnNumber = 0;
-            ActivateChar(turnNumber);
+            Invoke("ActivateChar", 2.0f);
+            //ActivateChar(turnNumber);
             timeToNext = false;
         }
         
         
     }
-    public void ActivateChar(int i)
+    public void ActivateChar()
     {
-        battleunits[i].active = true;
+        battleunits[turnNumber].active = true;
         
     }
     public void DeactivateChar(int i) 

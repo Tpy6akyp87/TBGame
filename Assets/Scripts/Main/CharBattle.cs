@@ -61,7 +61,7 @@ public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
                     break;
                 case CharStateIs.Next:
                     {
-                        target = null;
+                        //target = null;
                         if (Input.GetMouseButton(1))
                         {
                             turnBaser.timeToNext = true;
