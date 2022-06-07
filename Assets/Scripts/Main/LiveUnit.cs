@@ -8,6 +8,7 @@ public class LiveUnit : Unit
 {
     public int health;
     public float speed;
+
     public NavMeshAgent agent;
     public GameObject pointToGo; 
     public float upScale;//временная поднималка подсветки возможного пути
@@ -26,7 +27,10 @@ public class LiveUnit : Unit
     }
     void Update()
     {
-        
+        if (health < 1)
+        {
+            Die();
+        }
     }
     public void Move(Vector3 targetToGo, float maxDistance, out Vector3 finalPoint)
     {

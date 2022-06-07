@@ -102,6 +102,10 @@ public class CharBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
             }
         }
     }
+    public void MyWeight(float distanceTo)
+    {
+        weght = strestrength * 10 + agility * 10 + intellect * 10 + wisdom * 10 - distanceTo + actionIn;
+    }
 }
 public enum CharStateIs
 {

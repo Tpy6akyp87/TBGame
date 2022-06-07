@@ -65,12 +65,18 @@ public class EnemyBattle : BattleUnit, IPointerEnterHandler, IPointerExitHandler
     }
     public void FindTarget(out LiveUnit target)
     {
+        for (int i = 0; i < turnBaser.friendlyBattleUnit.Length; i++)
+        {
+            turnBaser.friendlyBattleUnit[i].MyWeight((gameObject.transform.position - turnBaser.friendlyBattleUnit[i].transform.position).magnitude);
+        }
+
+
         CharBattle temp;
         for (int i = 0; i < turnBaser.friendlyBattleUnit.Length - 1; i++)
         {
             for (int j = i+1; j < turnBaser.friendlyBattleUnit.Length; j++)
             {
-                if (turnBaser.friendlyBattleUnit[i].health > turnBaser.friendlyBattleUnit[j].health)
+                if (turnBaser.friendlyBattleUnit[i].weght > turnBaser.friendlyBattleUnit[j].weght)
                 {
                     temp = turnBaser.friendlyBattleUnit[i];
                     turnBaser.friendlyBattleUnit[i] = turnBaser.friendlyBattleUnit[j];

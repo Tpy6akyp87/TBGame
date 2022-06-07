@@ -473,6 +473,13 @@ MonoBehaviour:
   outline: {fileID: 0}
   myPosition: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
+  strestrength: 1
+  agility: 1
+  intellect: 1
+  wisdom: 1
+  distanceTo: 0
+  actionIn: 0
+  weght: 0
   liveUnits: []
   turnBaser: {fileID: 0}
   switcher: 0
@@ -785,6 +792,13 @@ MonoBehaviour:
   outline: {fileID: 0}
   myPosition: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
+  strestrength: 1
+  agility: 1
+  intellect: 1
+  wisdom: 1
+  distanceTo: 0
+  actionIn: 0
+  weght: 0
   liveUnits: []
   turnBaser: {fileID: 0}
   switcher: 0
@@ -1523,6 +1537,13 @@ MonoBehaviour:
   outline: {fileID: 0}
   myPosition: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
+  strestrength: 1
+  agility: 1
+  intellect: 1
+  wisdom: 1
+  distanceTo: 0
+  actionIn: 0
+  weght: 0
   mainCamera: {fileID: 0}
   switcher: 0
   finalPoint: {x: 0, y: 0, z: 0}
@@ -1996,6 +2017,13 @@ MonoBehaviour:
   outline: {fileID: 0}
   myPosition: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
+  strestrength: 1
+  agility: 1
+  intellect: 1
+  wisdom: 1
+  distanceTo: 0
+  actionIn: 0
+  weght: 0
   mainCamera: {fileID: 0}
   switcher: 0
   finalPoint: {x: 0, y: 0, z: 0}
@@ -2476,6 +2504,13 @@ MonoBehaviour:
   outline: {fileID: 0}
   myPosition: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
+  strestrength: 1
+  agility: 1
+  intellect: 1
+  wisdom: 1
+  distanceTo: 0
+  actionIn: 0
+  weght: 0
   liveUnits: []
   turnBaser: {fileID: 0}
   switcher: 0
@@ -2977,6 +3012,13 @@ MonoBehaviour:
   outline: {fileID: 0}
   myPosition: {x: 0, y: 0, z: 0}
   cursorPoint: {x: 0, y: 0, z: 0}
+  strestrength: 1
+  agility: 1
+  intellect: 1
+  wisdom: 1
+  distanceTo: 0
+  actionIn: 0
+  weght: 0
   mainCamera: {fileID: 0}
   switcher: 0
   finalPoint: {x: 0, y: 0, z: 0}

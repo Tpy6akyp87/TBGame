@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class BattleUnit : LiveUnit
 {
+    public int strestrength;
+    public int agility;
+    public int intellect;
+    public int wisdom;
+    public float distanceTo;
+    public int actionIn;
+
+    public float weght;
     void Start()
     {
         
